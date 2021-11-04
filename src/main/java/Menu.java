@@ -5,18 +5,17 @@ import java.util.List;
 
 
 public class Menu {
-    private static final String FILE = "src/main/resources/flights.txt";
+    private static final String flightsTxt = "src/main/resources/flights.txt";
 
     public void showMenu() {
         Flights flight = new Flights();
-        readFlights(flight);
+        // de aici inlocuiesc cu meniu
+        readFiles(flight);
         flight.showFlights();
         System.out.println();
         flight.deleteFlight(2);
         flight.showFlights();
-
         tryUpdateFlight(flight, 1, "ATH55A", "London", "Bucuresti", 3700, 550, 22, 15);
-
         System.out.println();
         flight.showFlights();
     }
@@ -36,10 +35,11 @@ public class Menu {
             System.out.println(e.getMessage());
         }
     }
-    private  void readFlights(Flights flight){
+
+    private void readFiles(Flights flight) {
 
         Runnable readFlights = () -> {
-            File file = new File(FILE);
+            File file = new File(flightsTxt);
             try (FileReader fileReader = new FileReader(file); BufferedReader bufferedReader = new BufferedReader(fileReader)) {
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
@@ -51,7 +51,6 @@ public class Menu {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         };
         Thread readFlightsThread = new Thread(readFlights);
 

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Flights {
-    private static final String FILE = "src/main/resources/flights.txt";
+    private static final String flightsTxt = "src/main/resources/flights.txt";
     private final List<FlightDetails> flights = new ArrayList<>();
 
     public void addFlight  (String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes) throws WrongDateException {
@@ -77,7 +77,7 @@ public class Flights {
     }
     private void updateFileFlights(){
         Runnable saveFlights = () ->{
-            File file = new File(FILE);
+            File file = new File(flightsTxt);
             try (FileWriter fileWriter = new FileWriter(file)) {
                final StringBuilder stringBuilder = new StringBuilder();
                flights.forEach(flight -> stringBuilder.append(flight.getPlane()).append(",")
@@ -94,10 +94,5 @@ public class Flights {
         };
         Thread saveFlightsThread = new Thread(saveFlights);
         saveFlightsThread.start();
-        try {
-            saveFlightsThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }
