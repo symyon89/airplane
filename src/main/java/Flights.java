@@ -26,9 +26,21 @@ public class Flights {
                 System.out.println(index + "." + thisFlight + "Travel Time = " +
                         travelTime.calculateTime(thisFlight.getDistance(), thisFlight.getAverageSpeed())+
                         " hours");
-                index.set(index.get() + 1);
+                index.getAndIncrement();
             });
         }
+    }
+    public void updateFlight(int index,String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes){
+       index--;
+       FlightDetails updateFlight = flights.get(index);
+        updateFlight.setPlane(plane);
+        updateFlight.setDepartureCity(departureCity);
+        updateFlight.setDestinationCity(destinationCity);
+        updateFlight.setDistance(distance);
+        updateFlight.setAverageSpeed(average);
+        updateFlight.setDepartureTime(hour,minutes);
+        flights.remove(index);
+        flights.add(index,updateFlight);
     }
     public void deleteFlight(int index){
         index--;
