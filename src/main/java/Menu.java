@@ -25,14 +25,14 @@ public class Menu {
         try {
             flight.addFlight(plane,departureCity,destinationCity,distance,average,hour,minutes);
         } catch (WrongDateException e) {
-            e.getMessage();
+            System.out.println(e.getMessage());
         }
     }
     public void tryupdateFlight(Flights flight,int index, String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes) {
         try {
             flight.updateFlight(index,plane,departureCity,destinationCity,distance,average,hour,minutes);
         } catch (WrongDateException e) {
-            e.getMessage();
+            System.out.println(e.getMessage());
         }
     }
 }
