@@ -9,30 +9,7 @@ public class Menu {
 
     public void showMenu() {
         Flights flight = new Flights();
-        Runnable readFlights = () -> {
-            File file = new File(FILE);
-            try (FileReader fileReader = new FileReader(file); BufferedReader bufferedReader = new BufferedReader(fileReader)) {
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    List<String> list = List.of(line.split(","));
-                    tryAddFlight(flight, list.get(0), list.get(1), list.get(2),
-                            Integer.parseInt(list.get(3)), Integer.parseInt(list.get(4)), Integer.parseInt(list.get(5)),
-                            Integer.parseInt(list.get(6)));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        };
-        Thread readFlightsThread = new Thread(readFlights);
-
-        readFlightsThread.start();
-        try {
-            readFlightsThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        readFlights(flight);
         flight.showFlights();
         System.out.println();
         flight.deleteFlight(2);
@@ -57,6 +34,32 @@ public class Menu {
             flight.updateFlight(index, plane, departureCity, destinationCity, distance, average, hour, minutes);
         } catch (WrongDateException e) {
             System.out.println(e.getMessage());
+        }
+    }
+    private  void readFlights(Flights flight){
+
+        Runnable readFlights = () -> {
+            File file = new File(FILE);
+            try (FileReader fileReader = new FileReader(file); BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    List<String> list = List.of(line.split(","));
+                    tryAddFlight(flight, list.get(0), list.get(1), list.get(2),
+                            Integer.parseInt(list.get(3)), Integer.parseInt(list.get(4)), Integer.parseInt(list.get(5)),
+                            Integer.parseInt(list.get(6)));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        };
+        Thread readFlightsThread = new Thread(readFlights);
+
+        readFlightsThread.start();
+        try {
+            readFlightsThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
