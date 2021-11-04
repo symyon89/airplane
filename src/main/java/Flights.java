@@ -15,12 +15,8 @@ public class Flights {
         flight.setDestinationCity(destinationCity);
         flight.setDistance(distance);
         flight.setAverageSpeed(average);
-        if(hour < 0 || hour > 23){
-            throw new WrongDateException();
-        }
-        if (minutes < 0 || minutes >59) {
-            throw new WrongDateException();
-        }
+        checkHour(hour);
+        checkMinutes(minutes);
         flight.setDepartureTime(hour,minutes);
         flights.add(flight);
     }
@@ -51,12 +47,8 @@ public class Flights {
         updateFlight.setDestinationCity(destinationCity);
         updateFlight.setDistance(distance);
         updateFlight.setAverageSpeed(average);
-        if(hour < 0 || hour > 23) {
-            throw new WrongDateException();
-        }
-        if (minutes < 0 || minutes >59) {
-            throw new WrongDateException();
-        }
+        checkHour(hour);
+        checkMinutes(minutes);
         updateFlight.setDepartureTime(hour,minutes);
         flights.remove(index);
         flights.add(index,updateFlight);
@@ -68,5 +60,15 @@ public class Flights {
         }
         index--;
         flights.remove(index);
+    }
+    public void checkHour(int hour) throws WrongDateException{
+        if(hour < 0 || hour > 23){
+            throw new WrongDateException();
+        }
+    }
+    public void checkMinutes(int minutes) throws WrongDateException{
+        if (minutes < 0 || minutes >59) {
+            throw new WrongDateException();
+        }
     }
 }
