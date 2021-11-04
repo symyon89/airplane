@@ -5,6 +5,7 @@ public class FlightDetails {
     private String destinationCity;
     private String departureCity;
     private int distance;
+    private int averageSpeed;
     LocalTime departureTime;
 
 
@@ -23,8 +24,6 @@ public class FlightDetails {
     public void setDepartureCity(String departureCity) {
         this.departureCity = departureCity;
     }
-
-    private int averageSpeed;
 
     public int getAverageSpeed() {
         return averageSpeed;
