@@ -1,6 +1,5 @@
 import Exceptions.WrongDateException;
 
-import java.time.DateTimeException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -27,7 +26,7 @@ public class Flights {
             AtomicInteger index = new AtomicInteger();
             index.set(1);
             flights.forEach(thisFlight -> {
-                TravelTime travelTime = (dist, avg) -> dist / avg * 1.0;
+                TravelTime travelTime = (dist, avg) -> dist / (avg * 1.0);
                 System.out.println(index + "." + thisFlight + "Travel Time = " +
                         travelTime.calculateTime(thisFlight.getDistance(), thisFlight.getAverageSpeed())+
                         " hours");
