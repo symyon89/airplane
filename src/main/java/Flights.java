@@ -26,7 +26,7 @@ public class Flights {
             AtomicInteger index = new AtomicInteger();
             index.set(1);
             flights.forEach(thisFlight -> {
-                TravelTime travelHours = (dist, avg) -> (int)(dist / (avg * 1.0 ));
+                TravelTime travelHours = (dist, avg) -> (dist / avg );
                 TravelTime travelminutes = (dist, avg) -> (int)(((dist / (avg * 1.0))-((dist / avg ))) * 60) ;
                 System.out.println(index + "." + thisFlight + "Travel Time = " +
                         travelHours.calculateTime(thisFlight.getDistance(), thisFlight.getAverageSpeed())+
