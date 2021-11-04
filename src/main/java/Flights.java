@@ -5,10 +5,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Flights {
     List<FlightDetails> flights = new ArrayList<>();
 
-    public void addFlight(String plane,String city, int distance, int average){
+    public void addFlight(String plane,String departureCity,String destinationCity, int distance, int average){
         FlightDetails flight = new FlightDetails();
         flight.setPlane(plane);
-        flight.setCity(city);
+        flight.setDepartureCity(departureCity);
+        flight.setDestinationCity(destinationCity);
         flight.setDistance(distance);
         flight.setAverageSpeed(average);
         flights.add(flight);
@@ -21,7 +22,7 @@ public class Flights {
             index.set(1);
             flights.forEach(thisFlight -> {
                 TravelTime travelTime = (dist, avg) -> dist / avg * 1.0;
-                System.out.println(index + "." + thisFlight + " Time = " +
+                System.out.println(index + "." + thisFlight + "Travel Time = " +
                         travelTime.calculateTime(thisFlight.getDistance(), thisFlight.getAverageSpeed())+
                         " hours");
                 index.set(index.get() + 1);

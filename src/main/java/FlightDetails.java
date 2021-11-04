@@ -1,7 +1,17 @@
 public class FlightDetails {
     private String plane;
-    private String city;
+    private String destinationCity;
+    private String departureCity;
     private int distance;
+
+    public String getDepartureCity() {
+        return departureCity;
+    }
+
+    public void setDepartureCity(String departureCity) {
+        this.departureCity = departureCity;
+    }
+
     private int averageSpeed;
 
     public int getAverageSpeed() {
@@ -20,12 +30,12 @@ public class FlightDetails {
         this.plane = plane;
     }
 
-    public String getCity() {
-        return city;
+    public String getDestinationCity() {
+        return destinationCity;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setDestinationCity(String destinationCity) {
+        this.destinationCity = destinationCity;
     }
 
     public int getDistance() {
@@ -40,8 +50,9 @@ public class FlightDetails {
     public String toString() {
         return "Flight : " +
                 "plane='" + plane + '\'' +
-                ", city='" + city + '\'' +
+                ", Departure city='" + departureCity + '\'' +
+                ", Destination city='" + destinationCity + '\'' +
                 ", distance=" + distance +
-                ", averageSpeed=" + averageSpeed;
+                ", averageSpeed=" + averageSpeed + ", ";
     }
 }
