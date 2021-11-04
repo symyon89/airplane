@@ -8,6 +8,7 @@ public class Menu {
         flight.showFlights();
 
         tryAddFlight(flight,"ATH5544","New York","Bucuresti",10000,600,11,99);
+        tryAddFlight(flight,"ATH5544","New York","Bucuresti",10000,600,11,22);
         tryAddFlight(flight,"ATH5543","Paris","Brasov",500,500,14,22);
         tryAddFlight(flight,"ATH5542","Paris","Bucuresti",2700,550,23,0);
 
