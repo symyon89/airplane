@@ -23,8 +23,8 @@ public class Flights {
         updateFileFlights();
     }
     public void showFlights() {
-        if(flights.isEmpty())
-            System.out.println("No available flights");
+        if(flights.size() == 0)
+            System.out.println("No available flights to add");
         else {
             AtomicInteger index = new AtomicInteger();
             index.set(1);
@@ -39,8 +39,8 @@ public class Flights {
         }
     }
     public void updateFlight (int index,String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes) throws WrongDateException {
-        if (flights.isEmpty()) {
-            System.out.println("No available flights");
+        if (flights.size() == 0) {
+            System.out.println("No available flights to update");
             return;
         }
        index--;
@@ -94,5 +94,10 @@ public class Flights {
         };
         Thread saveFlightsThread = new Thread(saveFlights);
         saveFlightsThread.start();
+        try {
+            saveFlightsThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
