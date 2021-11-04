@@ -30,7 +30,11 @@ public class Flights {
             });
         }
     }
-    public void updateFlight(int index,String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes){
+    public void updateFlight (int index,String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes){
+        if (flights.isEmpty()){
+            System.out.println("No available flights");
+            return;
+        }
        index--;
        FlightDetails updateFlight = flights.get(index);
         updateFlight.setPlane(plane);
@@ -43,6 +47,10 @@ public class Flights {
         flights.add(index,updateFlight);
     }
     public void deleteFlight(int index){
+        if (flights.isEmpty()){
+            System.out.println("No available flights");
+            return;
+        }
         index--;
         flights.remove(index);
     }
