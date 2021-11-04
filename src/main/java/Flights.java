@@ -5,13 +5,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Flights {
     List<FlightDetails> flights = new ArrayList<>();
 
-    public void addFlight(String plane,String departureCity,String destinationCity, int distance, int average){
+    public void addFlight(String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes){
         FlightDetails flight = new FlightDetails();
         flight.setPlane(plane);
         flight.setDepartureCity(departureCity);
         flight.setDestinationCity(destinationCity);
         flight.setDistance(distance);
         flight.setAverageSpeed(average);
+        flight.setDepartureTime(hour,minutes);
         flights.add(flight);
     }
     public void showFlights(){

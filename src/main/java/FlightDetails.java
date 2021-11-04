@@ -1,8 +1,20 @@
+import java.time.LocalTime;
+
 public class FlightDetails {
     private String plane;
     private String destinationCity;
     private String departureCity;
     private int distance;
+    LocalTime departureTime;
+
+
+    public void setDepartureTime(int hour,int minutes ) {
+        departureTime =LocalTime.of(hour,minutes);
+    }
+
+    public LocalTime getDepartureTime() {
+        return departureTime;
+    }
 
     public String getDepartureCity() {
         return departureCity;
@@ -52,7 +64,8 @@ public class FlightDetails {
                 "plane='" + plane + '\'' +
                 ", Departure city='" + departureCity + '\'' +
                 ", Destination city='" + destinationCity + '\'' +
-                ", distance=" + distance +
+                ", Deprature Time='" + departureTime + '\'' +
+                ", distance=" + distance + " Km" +
                 ", averageSpeed=" + averageSpeed + ", ";
     }
 }
