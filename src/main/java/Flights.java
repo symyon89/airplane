@@ -1,3 +1,6 @@
+import Exceptions.WrongDateException;
+
+import java.time.DateTimeException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -5,17 +8,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Flights {
     List<FlightDetails> flights = new ArrayList<>();
 
-    public void addFlight(String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes){
+    public void addFlight  (String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes) throws WrongDateException {
         FlightDetails flight = new FlightDetails();
         flight.setPlane(plane);
         flight.setDepartureCity(departureCity);
         flight.setDestinationCity(destinationCity);
         flight.setDistance(distance);
         flight.setAverageSpeed(average);
+        if(hour < 0 || hour > 23){
+            throw new WrongDateException();
+        }
+        if (minutes < 0 || minutes >59) {
+            throw new WrongDateException();
+        }
         flight.setDepartureTime(hour,minutes);
         flights.add(flight);
     }
-    public void showFlights(){
+    public void showFlights() {
         if(flights.isEmpty())
             System.out.println("No available flights");
         else {
@@ -30,8 +39,8 @@ public class Flights {
             });
         }
     }
-    public void updateFlight (int index,String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes){
-        if (flights.isEmpty()){
+    public void updateFlight (int index,String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes) throws WrongDateException {
+        if (flights.isEmpty()) {
             System.out.println("No available flights");
             return;
         }
@@ -42,12 +51,18 @@ public class Flights {
         updateFlight.setDestinationCity(destinationCity);
         updateFlight.setDistance(distance);
         updateFlight.setAverageSpeed(average);
+        if(hour < 0 || hour > 23) {
+            throw new WrongDateException();
+        }
+        if (minutes < 0 || minutes >59) {
+            throw new WrongDateException();
+        }
         updateFlight.setDepartureTime(hour,minutes);
         flights.remove(index);
         flights.add(index,updateFlight);
     }
-    public void deleteFlight(int index){
-        if (flights.isEmpty()){
+    public void deleteFlight(int index) {
+        if (flights.isEmpty()) {
             System.out.println("No available flights");
             return;
         }
