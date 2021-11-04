@@ -1,17 +1,36 @@
 import Exceptions.WrongDateException;
 
+import java.io.*;
+import java.util.List;
+
 
 public class Menu {
+    private static final String FILE = "src/main/resources/flights.txt";
 
     public void showMenu(){
         Flights flight = new Flights();
-        flight.showFlights();
+        Runnable readFlights = () ->{
+            File file = new File(FILE);
+            try (FileReader fileReader = new FileReader(file); BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+                String line = bufferedReader.readLine();
+                List<String> list = List.of(line.split(","));
+                tryAddFlight(flight,list.get(0),list.get(1),list.get(2),
+                        Integer.parseInt(list.get(3)),Integer.parseInt(list.get(4)),Integer.parseInt(list.get(5)),
+                        Integer.parseInt(list.get(6)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+        Thread readFlightsThread = new Thread(readFlights);
 
-        tryAddFlight(flight,"ATH5544","New York","Bucuresti",10000,600,11,99);
-        tryAddFlight(flight,"ATH5544","New York","Bucuresti",10000,600,0,0);
-        tryAddFlight(flight,"ATH5543","Paris","Brasov",500,500,14,22);
-        tryAddFlight(flight,"ATH5542","Paris","Bucuresti",2700,550,23,0);
-        tryAddFlight(flight,"ATH5541","Cluj","Bucuresti",300,600,11,0);
+        readFlightsThread.start();
+        try {
+            readFlightsThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        flight.showFlights();
 
         flight.showFlights();
         System.out.println();
