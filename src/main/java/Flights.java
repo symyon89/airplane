@@ -26,10 +26,11 @@ public class Flights {
             AtomicInteger index = new AtomicInteger();
             index.set(1);
             flights.forEach(thisFlight -> {
-                TravelTime travelTime = (dist, avg) -> dist / (avg * 1.0);
+                TravelTime travelHours = (dist, avg) -> dist / (avg * 1.0 );
+                TravelTime travelminutes = (dist, avg) -> dist / (avg * 1.0);
                 System.out.println(index + "." + thisFlight + "Travel Time = " +
-                        travelTime.calculateTime(thisFlight.getDistance(), thisFlight.getAverageSpeed())+
-                        " hours");
+                        (int)travelHours.calculateTime(thisFlight.getDistance(), thisFlight.getAverageSpeed())+
+                        " hours " + travelminutes.calculateTime(thisFlight.getDistance(), thisFlight.getAverageSpeed()) + " minutes");
                 index.getAndIncrement();
             });
         }
