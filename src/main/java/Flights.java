@@ -1,7 +1,10 @@
 import Exceptions.WrongDateException;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -25,7 +28,7 @@ public class Flights {
     }
     public void showFlights() {
         if(flights.isEmpty())
-            System.out.println("No available flights to add");
+            System.out.println("No available flights to show");
         else {
             AtomicInteger index = new AtomicInteger();
             index.set(1);
@@ -39,6 +42,56 @@ public class Flights {
             });
         }
     }
+    public void showFlightsOrderedByTime(){
+        List<FlightDetails> showOrderdFlights = flights;
+        Comparator<FlightDetails> comparator = Comparator.comparing(FlightDetails::getDepartureTime);
+        showOrderdFlights.sort(comparator);
+        AtomicInteger index = new AtomicInteger();
+        index.set(1);
+        showOrderdFlights.forEach(thisFlight -> {
+            TravelTime travelHours = (dist, avg) -> (dist / avg );
+            TravelTime travelminutes = (dist, avg) -> (int)(((dist / (avg * 1.0))-((dist / avg ))) * 60) ;
+            System.out.println(index + "." + thisFlight + "Travel Time = " +
+                    travelHours.calculateTime(thisFlight.getDistance(), thisFlight.getAverageSpeed())+
+                    " hours " + travelminutes.calculateTime(thisFlight.getDistance(), thisFlight.getAverageSpeed()) + " minutes");
+            index.getAndIncrement();
+        });
+    }
+    public void showCityArrivalFlights(String city) {
+        if(flights.isEmpty())
+            System.out.println("No available flights to show");
+        else {
+            AtomicInteger index = new AtomicInteger();
+            index.set(1);
+            flights.stream().filter(thisFlight -> thisFlight.getDestinationCity().equalsIgnoreCase(city))
+                    .forEach(thisFlight -> {
+                TravelTime travelHours = (dist, avg) -> (dist / avg );
+                TravelTime travelminutes = (dist, avg) -> (int)(((dist / (avg * 1.0))-((dist / avg ))) * 60) ;
+                System.out.println(index + "." + thisFlight + "Travel Time = " +
+                        travelHours.calculateTime(thisFlight.getDistance(), thisFlight.getAverageSpeed())+
+                        " hours " + travelminutes.calculateTime(thisFlight.getDistance(), thisFlight.getAverageSpeed()) + " minutes");
+                index.getAndIncrement();
+            });
+        }
+    }
+    public void showCityDepartureFlights(String city) {
+        if(flights.isEmpty())
+            System.out.println("No available flights to show");
+        else {
+            AtomicInteger index = new AtomicInteger();
+            index.set(1);
+            flights.stream().filter(thisFlight -> thisFlight.getDepartureCity().equalsIgnoreCase(city))
+                    .forEach(thisFlight -> {
+                        TravelTime travelHours = (dist, avg) -> (dist / avg );
+                        TravelTime travelminutes = (dist, avg) -> (int)(((dist / (avg * 1.0))-((dist / avg ))) * 60) ;
+                        System.out.println(index + "." + thisFlight + "Travel Time = " +
+                                travelHours.calculateTime(thisFlight.getDistance(), thisFlight.getAverageSpeed())+
+                                " hours " + travelminutes.calculateTime(thisFlight.getDistance(), thisFlight.getAverageSpeed()) + " minutes");
+                        index.getAndIncrement();
+                    });
+        }
+    }
+
     public void updateFlight (int index,String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes, int seats) throws WrongDateException {
         if (flights.isEmpty()) {
             System.out.println("No available flights to update");

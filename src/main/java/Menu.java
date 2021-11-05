@@ -11,10 +11,12 @@ public class Menu {
     private final Flights flight = new Flights();
     private final PassengerList passengers = new PassengerList();
 
+    public Menu() {
+        readFiles();
+    }
+
     public void showOptions() {
 
-
-        readFiles();
         // de aici inlocuiesc cu meniu
         passengers.showPassengers();
 
@@ -25,11 +27,22 @@ public class Menu {
 
         flight.showFlights();
         tryUpdateFlight(1, "ATH55A", "London", "Bucuresti", 3700, 550, 22, 15, 400);
+        tryUpdateFlight(2, "ATH55B", "Bucuresti", "London", 3500, 500, 12, 30, 250);
         System.out.println();
         flight.showFlights();
     }
+    private void showMenu(){
+        System.out.println("***Menu***");
+        System.out.println("1.Show Flights");
+        System.out.println("2.Update Flight");
+        System.out.println("3.Delete Flight");
+        System.out.println("4.Show departures for one city");
+        System.out.println("5.Show arrivals for one city");
+        System.out.println("6.Show flights orderd by time");
+    }
 
-    public void tryAddFlight(String plane, String departureCity, String destinationCity, int distance, int average, int hour, int minutes,int seats) {
+
+    private void tryAddFlight(String plane, String departureCity, String destinationCity, int distance, int average, int hour, int minutes,int seats) {
         try {
             flight.addFlight(plane, departureCity, destinationCity, distance, average, hour, minutes, seats);
         } catch (WrongDateException e) {
@@ -37,7 +50,7 @@ public class Menu {
         }
     }
 
-    public void tryUpdateFlight( int index, String plane, String departureCity, String destinationCity, int distance, int average, int hour, int minutes, int seats) {
+    private void tryUpdateFlight( int index, String plane, String departureCity, String destinationCity, int distance, int average, int hour, int minutes, int seats) {
         try {
             flight.updateFlight(index, plane, departureCity, destinationCity, distance, average, hour, minutes, seats);
         } catch (WrongDateException e) {
