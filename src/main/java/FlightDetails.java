@@ -74,7 +74,7 @@ public class FlightDetails {
                 ", Destination city='" + destinationCity + '\'' +
                 ", Deprature Time='" + departureTime + '\'' +
                 ", distance=" + distance + " Km" +
-                ", averageSpeed=" + averageSpeed + ", " +
+                ", averageSpeed=" + averageSpeed +
                 ", available Seats =" + availableSeats + ", ";
     }
 }
