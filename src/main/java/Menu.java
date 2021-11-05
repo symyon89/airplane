@@ -8,12 +8,13 @@ import java.util.List;
 public class Menu {
     private static final String flightsTxt = "src/main/resources/flights.txt";
     private static final String fileOfPassengers = "src/main/resources/passengers.txt";
+    private final Flights flight = new Flights();
+    private final PassengerList passengers = new PassengerList();
 
     public void showOptions() {
-        Flights flight = new Flights();
-        PassengerList passengers = new PassengerList();
 
-        readFiles(flight,passengers);
+
+        readFiles();
         // de aici inlocuiesc cu meniu
         passengers.showPassengers();
 
@@ -23,12 +24,12 @@ public class Menu {
         System.out.println();
 
         flight.showFlights();
-        tryUpdateFlight(flight, 1, "ATH55A", "London", "Bucuresti", 3700, 550, 22, 15, 400);
+        tryUpdateFlight(1, "ATH55A", "London", "Bucuresti", 3700, 550, 22, 15, 400);
         System.out.println();
         flight.showFlights();
     }
 
-    public void tryAddFlight(Flights flight, String plane, String departureCity, String destinationCity, int distance, int average, int hour, int minutes,int seats) {
+    public void tryAddFlight(String plane, String departureCity, String destinationCity, int distance, int average, int hour, int minutes,int seats) {
         try {
             flight.addFlight(plane, departureCity, destinationCity, distance, average, hour, minutes, seats);
         } catch (WrongDateException e) {
@@ -36,7 +37,7 @@ public class Menu {
         }
     }
 
-    public void tryUpdateFlight(Flights flight, int index, String plane, String departureCity, String destinationCity, int distance, int average, int hour, int minutes, int seats) {
+    public void tryUpdateFlight( int index, String plane, String departureCity, String destinationCity, int distance, int average, int hour, int minutes, int seats) {
         try {
             flight.updateFlight(index, plane, departureCity, destinationCity, distance, average, hour, minutes, seats);
         } catch (WrongDateException e) {
@@ -44,7 +45,7 @@ public class Menu {
         }
     }
 
-    private void readFiles(Flights flight,PassengerList passengers) {
+    private void readFiles() {
 
         Runnable readFlights = () -> {
             File file = new File(flightsTxt);
@@ -52,7 +53,7 @@ public class Menu {
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
                     List<String> list = List.of(line.split(","));
-                    tryAddFlight(flight, list.get(0), list.get(1), list.get(2),
+                    tryAddFlight(list.get(0), list.get(1), list.get(2),
                             Integer.parseInt(list.get(3)), Integer.parseInt(list.get(4)), Integer.parseInt(list.get(5)),
                             Integer.parseInt(list.get(6)),Integer.parseInt(list.get(7)));
                 }
