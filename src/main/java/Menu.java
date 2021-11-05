@@ -39,6 +39,7 @@ public class Menu {
         System.out.println("4.Show departures for one city");
         System.out.println("5.Show arrivals for one city");
         System.out.println("6.Show flights orderd by time");
+        System.out.println("7.Reserve flight");
     }
 
 
