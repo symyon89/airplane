@@ -9,13 +9,15 @@ public class Menu {
     private static final String flightsTxt = "src/main/resources/flights.txt";
     private static final String fileOfPassengers = "src/main/resources/passengers.txt";
 
-    public void showMenu() {
+    public void showOptions() {
         Flights flight = new Flights();
         PassengerList passengers = new PassengerList();
 
         readFiles(flight,passengers);
         // de aici inlocuiesc cu meniu
         passengers.showPassengers();
+
+        passengers.updatePassenger(1,"Grigoras Victor","15466546546","ATH5542",1);
         flight.showFlights();
 
         System.out.println();
