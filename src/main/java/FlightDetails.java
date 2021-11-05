@@ -7,9 +7,18 @@ public class FlightDetails {
     private int distance;
     private int averageSpeed;
     LocalTime departureTime;
+    private int availableSeats;
 
 
-    public void setDepartureTime(int hour,int minutes ) {
+    public int getAvailableSeats() {
+        return availableSeats;
+    }
+
+    public void setAvailableSeats(int availableSeats) {
+        this.availableSeats = availableSeats;
+    }
+
+    public void setDepartureTime(int hour, int minutes ) {
         departureTime =LocalTime.of(hour,minutes);
     }
 
@@ -65,6 +74,7 @@ public class FlightDetails {
                 ", Destination city='" + destinationCity + '\'' +
                 ", Deprature Time='" + departureTime + '\'' +
                 ", distance=" + distance + " Km" +
-                ", averageSpeed=" + averageSpeed + ", ";
+                ", averageSpeed=" + averageSpeed + ", " +
+                ", available Seats =" + availableSeats + ", ";
     }
 }

@@ -9,7 +9,7 @@ public class Flights {
     private static final String flightsTxt = "src/main/resources/flights.txt";
     private final List<FlightDetails> flights = new ArrayList<>();
 
-    public void addFlight  (String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes) throws WrongDateException {
+    public void addFlight  (String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes, int seats) throws WrongDateException {
         FlightDetails flight = new FlightDetails();
         flight.setPlane(plane);
         flight.setDepartureCity(departureCity);
@@ -19,6 +19,7 @@ public class Flights {
         checkHour(hour);
         checkMinutes(minutes);
         flight.setDepartureTime(hour,minutes);
+        flight.setAvailableSeats(seats);
         flights.add(flight);
         updateFileFlights();
     }
@@ -38,7 +39,7 @@ public class Flights {
             });
         }
     }
-    public void updateFlight (int index,String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes) throws WrongDateException {
+    public void updateFlight (int index,String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes, int seats) throws WrongDateException {
         if (flights.size() == 0) {
             System.out.println("No available flights to update");
             return;
@@ -50,6 +51,7 @@ public class Flights {
         updateFlight.setDestinationCity(destinationCity);
         updateFlight.setDistance(distance);
         updateFlight.setAverageSpeed(average);
+        updateFlight.setAvailableSeats(seats);
         checkHour(hour);
         checkMinutes(minutes);
         updateFlight.setDepartureTime(hour,minutes);
@@ -86,7 +88,8 @@ public class Flights {
                        .append(flight.getDistance()).append(",")
                        .append(flight.getAverageSpeed()).append(",")
                        .append(flight.getDepartureTime().getHour()).append(",")
-                       .append(flight.getDepartureTime().getMinute()).append("\n"));
+                       .append(flight.getDepartureTime().getMinute()).append(",")
+                       .append(flight.getAvailableSeats()).append("\n"));
                fileWriter.write(stringBuilder.toString());
             } catch (IOException e) {
                 e.printStackTrace();

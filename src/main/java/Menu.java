@@ -9,28 +9,29 @@ public class Menu {
 
     public void showMenu() {
         Flights flight = new Flights();
-        // de aici inlocuiesc cu meniu
+
         readFiles(flight);
+        // de aici inlocuiesc cu meniu
         flight.showFlights();
         System.out.println();
         flight.deleteFlight(2);
         flight.showFlights();
-        tryUpdateFlight(flight, 1, "ATH55A", "London", "Bucuresti", 3700, 550, 22, 15);
+        tryUpdateFlight(flight, 1, "ATH55A", "London", "Bucuresti", 3700, 550, 22, 15, 400);
         System.out.println();
         flight.showFlights();
     }
 
-    public void tryAddFlight(Flights flight, String plane, String departureCity, String destinationCity, int distance, int average, int hour, int minutes) {
+    public void tryAddFlight(Flights flight, String plane, String departureCity, String destinationCity, int distance, int average, int hour, int minutes,int seats) {
         try {
-            flight.addFlight(plane, departureCity, destinationCity, distance, average, hour, minutes);
+            flight.addFlight(plane, departureCity, destinationCity, distance, average, hour, minutes, seats);
         } catch (WrongDateException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void tryUpdateFlight(Flights flight, int index, String plane, String departureCity, String destinationCity, int distance, int average, int hour, int minutes) {
+    public void tryUpdateFlight(Flights flight, int index, String plane, String departureCity, String destinationCity, int distance, int average, int hour, int minutes, int seats) {
         try {
-            flight.updateFlight(index, plane, departureCity, destinationCity, distance, average, hour, minutes);
+            flight.updateFlight(index, plane, departureCity, destinationCity, distance, average, hour, minutes, seats);
         } catch (WrongDateException e) {
             System.out.println(e.getMessage());
         }
@@ -46,7 +47,7 @@ public class Menu {
                     List<String> list = List.of(line.split(","));
                     tryAddFlight(flight, list.get(0), list.get(1), list.get(2),
                             Integer.parseInt(list.get(3)), Integer.parseInt(list.get(4)), Integer.parseInt(list.get(5)),
-                            Integer.parseInt(list.get(6)));
+                            Integer.parseInt(list.get(6)),Integer.parseInt(list.get(7)));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
