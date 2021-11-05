@@ -1,4 +1,4 @@
-ATH5544,New York,Bucuresti,10000,600,0,0,200
+ATH55A,London,Bucuresti,3700,550,22,15,400
 ATH5543,Paris,Brasov,500,500,14,22,250
 ATH5542,Paris,Bucuresti,2700,550,23,0,300
 ATH5541,Cluj,Bucuresti,300,600,11,0,270

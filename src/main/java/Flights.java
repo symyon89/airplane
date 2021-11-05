@@ -24,7 +24,7 @@ public class Flights {
         updateFileFlights();
     }
     public void showFlights() {
-        if(flights.size() == 0)
+        if(flights.isEmpty())
             System.out.println("No available flights to add");
         else {
             AtomicInteger index = new AtomicInteger();
@@ -40,7 +40,7 @@ public class Flights {
         }
     }
     public void updateFlight (int index,String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes, int seats) throws WrongDateException {
-        if (flights.size() == 0) {
+        if (flights.isEmpty()) {
             System.out.println("No available flights to update");
             return;
         }

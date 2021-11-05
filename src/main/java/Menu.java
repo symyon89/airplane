@@ -1,20 +1,25 @@
 import Exceptions.WrongDateException;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
 public class Menu {
     private static final String flightsTxt = "src/main/resources/flights.txt";
+    private static final String fileOfPassengers = "src/main/resources/passengers.txt";
 
     public void showMenu() {
         Flights flight = new Flights();
+        PassengerList passengers = new PassengerList();
 
-        readFiles(flight);
+        readFiles(flight,passengers);
         // de aici inlocuiesc cu meniu
+        passengers.showPassengers();
         flight.showFlights();
+
         System.out.println();
-        flight.deleteFlight(2);
+
         flight.showFlights();
         tryUpdateFlight(flight, 1, "ATH55A", "London", "Bucuresti", 3700, 550, 22, 15, 400);
         System.out.println();
@@ -37,7 +42,7 @@ public class Menu {
         }
     }
 
-    private void readFiles(Flights flight) {
+    private void readFiles(Flights flight,PassengerList passengers) {
 
         Runnable readFlights = () -> {
             File file = new File(flightsTxt);
@@ -53,10 +58,26 @@ public class Menu {
                 e.printStackTrace();
             }
         };
-        Thread readFlightsThread = new Thread(readFlights);
+        Runnable readPassengers = () -> {
+            File file = new File(fileOfPassengers);
+            try (FileReader fileReader = new FileReader(file); BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    List<String> list = List.of(line.split(","));
+                    passengers.addPassenger(list.get(0), list.get(1), list.get(2),
+                            Integer.parseInt(list.get(3)),LocalDateTime.parse(list.get(4)));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
 
+        Thread readFlightsThread = new Thread(readFlights);
+        Thread readPassengersThread = new Thread(readPassengers);
         readFlightsThread.start();
+        readPassengersThread.start();
         try {
+            readPassengersThread.join();
             readFlightsThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
