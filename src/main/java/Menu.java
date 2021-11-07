@@ -57,6 +57,7 @@ public class Menu {
             case 6 -> showArrivalsByCity();
             case 7 -> flight.showFlightsOrderedByTime();
             case 8 -> reserveFlight();
+            case 9 -> System.out.println("Goodbye!");
             default -> System.out.println("Invalid option, please try again!");
 
         }
