@@ -27,10 +27,6 @@ public class Menu {
             switchMenuOptions(indexSelected);
         } while (indexSelected != 13);
 
-        // de aici inlocuiesc cu meniu
-//        passengers.showPassengers();
-//        passengers.updatePassenger(1, "Grigoras Victor", "15466546546", "ATH5542", 1);
-
     }
 
     private void showMenu() {
