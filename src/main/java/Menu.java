@@ -12,7 +12,8 @@ public class Menu {
     private static final String fileOfPassengers = "src/main/resources/passengers.txt";
     private final Flights flight = new Flights();
     private final PassengerList passengers = new PassengerList();
-    Scanner scanner = new Scanner(System.in);
+    Scanner scannerNumber = new Scanner(System.in);
+    Scanner scannerText = new Scanner(System.in);
 
     public Menu() {
         readFiles();
@@ -22,18 +23,14 @@ public class Menu {
         int indexSelected;
         do {
             showMenu();
-            indexSelected = scanner.nextInt();
+            indexSelected = scannerNumber.nextInt();
             switchMenuOptions(indexSelected);
         } while (indexSelected != 9);
 
         // de aici inlocuiesc cu meniu
-        passengers.showPassengers();
+//        passengers.showPassengers();
+//        passengers.updatePassenger(1, "Grigoras Victor", "15466546546", "ATH5542", 1);
 
-        passengers.updatePassenger(1, "Grigoras Victor", "15466546546", "ATH5542", 1);
-
-
-        System.out.println();
-        flight.showFlights();
     }
 
     private void showMenu() {
@@ -70,31 +67,31 @@ public class Menu {
     private FlightDetails enterDetails() {
         FlightDetails flight = new FlightDetails();
         System.out.print("Enter plane code : ");
-        String plane = scanner.nextLine();
+        String plane = scannerText.nextLine();
         flight.setPlane(plane);
         System.out.print("Enter departure city : ");
-        String departureCity = scanner.nextLine();
+        String departureCity = scannerText.nextLine();
         flight.setDepartureCity(departureCity);
         System.out.print("Enter destination city : ");
-        String destinationCity = scanner.nextLine();
+        String destinationCity = scannerText.nextLine();
         flight.setDestinationCity(destinationCity);
         System.out.print("Enter distance between the two cities : ");
-        int distance = scanner.nextInt();
+        int distance = scannerNumber.nextInt();
         flight.setDistance(distance);
         System.out.print("Enter average speed of the plane : ");
-        int average = scanner.nextInt();
+        int average = scannerNumber.nextInt();
         flight.setAverageSpeed(average);
         int hour = enterHour();
         int minutes = enterMinutes();
         flight.setDepartureTime(hour,minutes);
-        System.out.println("enter the number o seats : ");
-        int seats = scanner.nextInt();
+        System.out.print("enter the number o seats : ");
+        int seats = scannerNumber.nextInt();
         flight.setAvailableSeats(seats);
         return flight;
     }
     private int enterHour(){
         System.out.print("Enter hour of departure : ");
-        int hour = scanner.nextInt();
+        int hour = scannerNumber.nextInt();
         try {
             this.flight.checkHour(hour);
         } catch (WrongDateException e) {
@@ -105,7 +102,7 @@ public class Menu {
     }
     private int enterMinutes(){
         System.out.print("Enter the minute of departure : ");
-        int minutes = scanner.nextInt();
+        int minutes = scannerNumber.nextInt();
         try {
             this.flight.checkMinutes(minutes);
         } catch (WrongDateException e) {
@@ -117,13 +114,13 @@ public class Menu {
 
     private void showDeparturesByCity() {
         System.out.println("Enter city");
-        String city = scanner.nextLine();
+        String city = scannerText.nextLine();
         flight.showCityDepartureFlights(city);
     }
 
     private void showArrivalsByCity() {
         System.out.println("Enter city");
-        String city = scanner.nextLine();
+        String city = scannerText.nextLine();
         flight.showCityArrivalFlights(city);
     }
 
@@ -143,7 +140,7 @@ public class Menu {
     private void tryUpdateFlight() {
         flight.showFlights();
         System.out.println("Enter flight to update : ");
-        int index = scanner.nextInt();
+        int index = scannerNumber.nextInt();
         try {
             checkIndex(index);
         } catch (WrongIndexException e) {
@@ -157,7 +154,7 @@ public class Menu {
     private void deleteFlight() {
         flight.showFlights();
         System.out.print("Choose flight to delete : ");
-        int index = scanner.nextInt();
+        int index = scannerNumber.nextInt();
         try {
             checkIndex(index);
         } catch (WrongIndexException e) {
@@ -175,7 +172,7 @@ public class Menu {
     private void reserveFlight() {
         flight.showFlights();
         System.out.println("Choose flight to reserve : ");
-        int index =  scanner.nextInt();
+        int index =  scannerNumber.nextInt();
         try {
             checkIndex(index);
         } catch (WrongIndexException e) {
