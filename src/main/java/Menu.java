@@ -94,6 +94,7 @@ public class Menu {
         updatePassenger.setIdNumber(scannerText.nextLine());
         updatePassenger.setPlane(passengers.returnPlane(index));
         updatePassenger.setNumberOfSeats(passengers.returnSeats(index));
+        updatePassenger.setDateOfAquisition(passengers.returnDate(index));
         passengers.updatePassenger(index,updatePassenger);
 
     }

@@ -82,6 +82,10 @@ public class PassengerList {
         return listOfPassengers.size();
     }
 
+    public LocalDateTime returnDate(int index){
+        return listOfPassengers.get(index).getDateOfAquisition();
+    }
+
     public void deletePassenger(int index) {
         if (listOfPassengers.isEmpty()) {
             System.out.println("List of passengers is empty");
