@@ -25,7 +25,7 @@ public class Menu {
             showMenu();
             indexSelected = scannerNumber.nextInt();
             switchMenuOptions(indexSelected);
-        } while (indexSelected != 9);
+        } while (indexSelected != 13);
 
         // de aici inlocuiesc cu meniu
 //        passengers.showPassengers();
@@ -43,7 +43,11 @@ public class Menu {
         System.out.println("6.Show arrivals for one city");
         System.out.println("7.Show flights sorted by time");
         System.out.println("8.Reserve flight");
-        System.out.println("9.Exit");
+        System.out.println("9.Show my reservation");
+        System.out.println("10.Show list with all pasengers");
+        System.out.println("11.Update passanger name and id");
+        System.out.println("12.Delete passenger ");
+        System.out.println("13.Exit");
         System.out.print("Enter your chioce :");
     }
 
@@ -57,13 +61,48 @@ public class Menu {
             case 6 -> showArrivalsByCity();
             case 7 -> flight.showFlightsOrderedByTime();
             case 8 -> reserveFlight();
-            case 9 -> System.out.println("Goodbye!");
+            case 9 -> showMyRerservation();
+            case 10 ->passengers.showPassengers();
+            case 11 ->updatePassenger();
+            case 12 ->deletePassenger();
+            case 13 -> System.out.println("Goodbye!");
             default -> System.out.println("Invalid option, please try again!");
 
         }
     }
 
-    //TODO nu merge sa adaug corect
+    private void deletePassenger() {
+        passengers.showPassengers();
+        System.out.print("Choose option to delete : ");
+        int index = scannerNumber.nextInt();
+        passengers.deletePassenger(index);
+    }
+
+    private void updatePassenger() {
+        passengers.showPassengers();
+        System.out.print("Choose passanger to update :");
+        int index = scannerNumber.nextInt();
+        try {
+            checkIndexPassengers(index);
+        } catch (WrongIndexException e) {
+            updatePassenger();
+        }
+        Passenger updatePassenger = new Passenger();
+        System.out.print("Enter new name : ");
+        updatePassenger.setName(scannerText.nextLine());
+        System.out.print("Enter new Id : ");
+        updatePassenger.setIdNumber(scannerText.nextLine());
+        updatePassenger.setPlane(passengers.returnPlane(index));
+        updatePassenger.setNumberOfSeats(passengers.returnSeats(index));
+        passengers.updatePassenger(index,updatePassenger);
+
+    }
+
+    private void showMyRerservation() {
+        System.out.print("Enter your name : ");
+        String name = scannerText.nextLine();
+        passengers.showReservation(name);
+    }
 
     private FlightDetails enterDetails() {
         FlightDetails flight = new FlightDetails();
@@ -84,13 +123,14 @@ public class Menu {
         flight.setAverageSpeed(average);
         int hour = enterHour();
         int minutes = enterMinutes();
-        flight.setDepartureTime(hour,minutes);
+        flight.setDepartureTime(hour, minutes);
         System.out.print("enter the number o seats : ");
         int seats = scannerNumber.nextInt();
         flight.setAvailableSeats(seats);
         return flight;
     }
-    private int enterHour(){
+
+    private int enterHour() {
         System.out.print("Enter hour of departure : ");
         int hour = scannerNumber.nextInt();
         try {
@@ -101,7 +141,8 @@ public class Menu {
         }
         return hour;
     }
-    private int enterMinutes(){
+
+    private int enterMinutes() {
         System.out.print("Enter the minute of departure : ");
         int minutes = scannerNumber.nextInt();
         try {
@@ -114,13 +155,13 @@ public class Menu {
     }
 
     private void showDeparturesByCity() {
-        System.out.println("Enter city");
+        System.out.print("Enter city : ");
         String city = scannerText.nextLine();
         flight.showCityDepartureFlights(city);
     }
 
     private void showArrivalsByCity() {
-        System.out.println("Enter city");
+        System.out.print("Enter city : ");
         String city = scannerText.nextLine();
         flight.showCityArrivalFlights(city);
     }
@@ -162,10 +203,17 @@ public class Menu {
         }
     }
 
+    private void checkIndexPassengers(int index) throws WrongIndexException {
+        if (index < 0 || index > passengers.returnNumberOfPassengers()) {
+            throw new WrongIndexException();
+        }
+    }
+
     private void reserveFlight() {
         flight.showFlights();
         System.out.println("Choose flight to reserve : ");
-        int index =  scannerNumber.nextInt();
+        int index = scannerNumber.nextInt();
+        index--;
         try {
             checkIndex(index);
         } catch (WrongIndexException e) {
@@ -173,11 +221,57 @@ public class Menu {
         }
         String plane = flight.returnPlaneCode(index);
         int seats = flight.returnSeats(index);
-        addPassengerDetails();
+        if (checkSeats(seats)) {
+            System.out.println("No seats available !");
+            return;
+        }
+        addPassengerDetails(plane, seats, index);
     }
-    // TODO de impementat introducere pasager
-    private void addPassengerDetails(){
 
+    private void addPassengerDetails(String plane, int seats, int index) {
+        Passenger passenger = new Passenger();
+        passenger.setPlane(plane);
+        System.out.print("Enter entire name : ");
+        passenger.setName(scannerText.nextLine());
+        System.out.print("Enter Id number : ");
+        passenger.setIdNumber(scannerText.nextLine());
+        passenger.setDateOfAquisition(LocalDateTime.now());
+        int desiredSeats = seatsReservation(seats);
+        if (desiredSeats != 0) {
+            passenger.setNumberOfSeats(desiredSeats);
+            this.passengers.addPassenger(passenger);
+            this.flight.decreaseSeats(index, desiredSeats);
+        } else {
+            System.out.println("Not enough seats available!");
+            System.out.println("The reservation was cannceled , try again!");
+        }
+    }
+
+    private int seatsReservation(int seats) {
+        int desiredSeats;
+        boolean checkIfShowMessage = false;
+        do {
+            if (checkIfShowMessage) {
+                System.out.println("Invalid option, please try again !");
+            }
+            System.out.println("Available seats : " + seats);
+            System.out.println("Enter number of seats that you want to reserve : ");
+            desiredSeats = scannerNumber.nextInt();
+            checkIfShowMessage = true;
+        } while (desiredSeats <= 0);
+
+        if (checkSeats(seats, desiredSeats)) {
+            return desiredSeats;
+        } else {
+            return 0;
+        }
+    }
+
+    private boolean checkSeats(int seats) {
+        return seats <= 0;
+    }
+    private boolean checkSeats(int seats, int desiredSeats) {
+        return seats > desiredSeats;
     }
 
     private void readFiles() {
@@ -194,9 +288,9 @@ public class Menu {
                     currentFlight.setDestinationCity(list.get(2));
                     currentFlight.setDistance(Integer.parseInt(list.get(3)));
                     currentFlight.setAverageSpeed(Integer.parseInt(list.get(4)));
-                    currentFlight.setDepartureTime(Integer.parseInt(list.get(5)),Integer.parseInt(list.get(6)));
+                    currentFlight.setDepartureTime(Integer.parseInt(list.get(5)), Integer.parseInt(list.get(6)));
                     currentFlight.setAvailableSeats(Integer.parseInt(list.get(7)));
-                   flight.addFlight(currentFlight);
+                    flight.addFlight(currentFlight);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

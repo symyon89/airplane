@@ -12,24 +12,11 @@ public class Flights {
     private static final String flightsTxt = "src/main/resources/flights.txt";
     private final List<FlightDetails> flights = new ArrayList<>();
 
-    public void addFlight  (String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes, int seats) throws WrongDateException {
-        FlightDetails flight = new FlightDetails();
-        flight.setPlane(plane);
-        flight.setDepartureCity(departureCity);
-        flight.setDestinationCity(destinationCity);
-        flight.setDistance(distance);
-        flight.setAverageSpeed(average);
-        checkHour(hour);
-        checkMinutes(minutes);
-        flight.setDepartureTime(hour,minutes);
-        flight.setAvailableSeats(seats);
-        flights.add(flight);
-        updateFileFlights();
-    }
     public void addFlight(FlightDetails flight){
         flights.add(flight);
         updateFileFlights();
     }
+
     public void showFlights() {
         if(flights.isEmpty())
             System.out.println("No available flights to show");
@@ -46,6 +33,7 @@ public class Flights {
             });
         }
     }
+
     public void showFlightsOrderedByTime(){
         List<FlightDetails> showOrderdFlights = flights;
         Comparator<FlightDetails> comparator = Comparator.comparing(FlightDetails::getDepartureTime);
@@ -61,6 +49,7 @@ public class Flights {
             index.getAndIncrement();
         });
     }
+
     public void showCityArrivalFlights(String city) {
         if(flights.isEmpty())
             System.out.println("No available flights to show");
@@ -80,6 +69,7 @@ public class Flights {
                 System.out.println("No arrivals found for this city");
         }
     }
+
     public void showCityDepartureFlights(String city) {
         if(flights.isEmpty())
             System.out.println("No available flights to show");
@@ -99,6 +89,7 @@ public class Flights {
                 System.out.println("No departures found for this city");
         }
     }
+
     public String returnPlaneCode(int index){
         return flights.get(index).getPlane();
     }
@@ -117,6 +108,7 @@ public class Flights {
         flights.add(index,flight);
         updateFileFlights();
     }
+
     public void deleteFlight(int index) {
         if (flights.isEmpty()) {
             System.out.println("No available flights");
@@ -125,20 +117,29 @@ public class Flights {
         index--;
         flights.remove(index);
     }
+
     public void checkHour(int hour) throws WrongDateException{
         if(hour < 0 || hour > 23){
             throw new WrongDateException();
         }
     }
+
     public void checkMinutes(int minutes) throws WrongDateException{
         if (minutes < 0 || minutes >59) {
             throw new WrongDateException();
         }
     }
+
     public int numberOfFlights(){
         return flights.size();
     }
-    private void updateFileFlights(){
+
+    public void decreaseSeats(int index, int desiredSeats) {
+        int currentSeats = flights.get(index).getAvailableSeats();
+        flights.get(index).setAvailableSeats(currentSeats-desiredSeats);
+    }
+
+    private void updateFileFlights() {
         Runnable saveFlights = () ->{
             File file = new File(flightsTxt);
             try (FileWriter fileWriter = new FileWriter(file)) {

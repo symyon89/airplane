@@ -11,13 +11,7 @@ public class PassengerList {
     private final List<Passenger> listOfPassengers = new ArrayList<>();
     private static final String fileOfPassengers = "src/main/resources/passengers.txt";
 
-    public void addPassenger(String name,String idNumber,String plane,int numberOfSeats){
-        Passenger passenger = new Passenger();
-        passenger.setName(name);
-        passenger.setIdNumber(idNumber);
-        passenger.setPlane(plane);
-        passenger.setNumberOfSeats(numberOfSeats);
-        passenger.setDateOfAquisition(LocalDateTime.now());
+    public void addPassenger(Passenger passenger){
         listOfPassengers.add(passenger);
         updateFilePassengers();
     }
@@ -31,6 +25,27 @@ public class PassengerList {
         listOfPassengers.add(passenger);
         updateFilePassengers();
     }
+
+    public void showReservation(String name){
+        if(listOfPassengers.isEmpty())
+            System.out.println("List of passengers is empty");
+        else {
+            AtomicInteger index = new AtomicInteger();
+            index.set(1);
+            listOfPassengers.stream()
+                    .filter(passenger -> passenger.getName().equalsIgnoreCase(name))
+                    .forEach(passenger -> {
+                        System.out.println(index + "." + passenger);
+                        index.incrementAndGet();
+                    });
+            if(index.get() == 1){
+                System.out.println("No reservation was found");
+            }
+
+        }
+
+    }
+
     public void showPassengers(){
         if(listOfPassengers.isEmpty())
             System.out.println("List of passengers is empty");
@@ -43,21 +58,30 @@ public class PassengerList {
             });
         }
     }
-    public void updatePassenger (int index,String name,String idNumber,String plane,int numberOfSeats) {
+
+    public void updatePassenger (int index,Passenger passenger) {
         if (listOfPassengers.isEmpty()) {
             System.out.println("List of passengers is empty");
             return;
         }
         index--;
-        Passenger updatePassenger = listOfPassengers.get(index);
-        updatePassenger.setName(name);
-        updatePassenger.setIdNumber(idNumber);
-        updatePassenger.setPlane(plane);
-        updatePassenger.setNumberOfSeats(numberOfSeats);
         listOfPassengers.remove(index);
-        listOfPassengers.add(index,updatePassenger);
+        listOfPassengers.add(index,passenger);
         updateFilePassengers();
     }
+
+    public String returnPlane(int index) {
+        return listOfPassengers.get(index).getPlane();
+    }
+
+    public int returnSeats(int index) {
+        return listOfPassengers.get(index).getNumberOfSeats();
+    }
+
+    public int returnNumberOfPassengers() {
+        return listOfPassengers.size();
+    }
+
     public void deletePassenger(int index) {
         if (listOfPassengers.isEmpty()) {
             System.out.println("List of passengers is empty");
@@ -65,7 +89,9 @@ public class PassengerList {
         }
         index--;
         listOfPassengers.remove(index);
+        updateFilePassengers();
     }
+
     private void updateFilePassengers(){
         Runnable savePassenger = () ->{
             File file = new File(fileOfPassengers);
