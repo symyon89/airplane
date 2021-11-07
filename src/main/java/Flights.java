@@ -26,6 +26,9 @@ public class Flights {
         flights.add(flight);
         updateFileFlights();
     }
+    public void addFlight(FlightDetails flight){
+
+    }
     public void showFlights() {
         if(flights.isEmpty())
             System.out.println("No available flights to show");
@@ -72,6 +75,8 @@ public class Flights {
                         " hours " + travelminutes.calculateTime(thisFlight.getDistance(), thisFlight.getAverageSpeed()) + " minutes");
                 index.getAndIncrement();
             });
+            if (index.get() == 1)
+                System.out.println("No arrivals found for this city");
         }
     }
     public void showCityDepartureFlights(String city) {
@@ -89,9 +94,17 @@ public class Flights {
                                 " hours " + travelminutes.calculateTime(thisFlight.getDistance(), thisFlight.getAverageSpeed()) + " minutes");
                         index.getAndIncrement();
                     });
+            if (index.get() == 1)
+                System.out.println("No departures found for this city");
         }
     }
+    public String returnPlaneCode(int index){
+        return flights.get(index).getPlane();
+    }
 
+    public int returnSeats(int index){
+        return flights.get(index).getAvailableSeats();
+    }
     public void updateFlight (int index,String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes, int seats) throws WrongDateException {
         if (flights.isEmpty()) {
             System.out.println("No available flights to update");
@@ -110,6 +123,16 @@ public class Flights {
         updateFlight.setDepartureTime(hour,minutes);
         flights.remove(index);
         flights.add(index,updateFlight);
+        updateFileFlights();
+    }
+    public void updateFlight (int index,FlightDetails flight) {
+        if (flights.isEmpty()) {
+            System.out.println("No available flights to update");
+            return;
+        }
+        index--;
+
+        flights.add(index,flight);
         updateFileFlights();
     }
     public void deleteFlight(int index) {
@@ -150,5 +173,8 @@ public class Flights {
         };
         Thread saveFlightsThread = new Thread(saveFlights);
         saveFlightsThread.start();
+    }
+    public int numberOfFlights(){
+        return flights.size();
     }
 }
