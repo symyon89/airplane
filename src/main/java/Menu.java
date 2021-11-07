@@ -125,14 +125,6 @@ public class Menu {
         flight.showCityArrivalFlights(city);
     }
 
-    private void tryAddFlight(String plane, String departureCity, String destinationCity, int distance, int average, int hour, int minutes, int seats) {
-        try {
-            flight.addFlight(plane, departureCity, destinationCity, distance, average, hour, minutes, seats);
-        } catch (WrongDateException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
     private void tryAddFlight() {
         FlightDetails flightDetails = enterDetails();
         flight.addFlight(flightDetails);
@@ -196,9 +188,15 @@ public class Menu {
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
                     List<String> list = List.of(line.split(","));
-                    tryAddFlight(list.get(0), list.get(1), list.get(2),
-                            Integer.parseInt(list.get(3)), Integer.parseInt(list.get(4)), Integer.parseInt(list.get(5)),
-                            Integer.parseInt(list.get(6)), Integer.parseInt(list.get(7)));
+                    FlightDetails currentFlight = new FlightDetails();
+                    currentFlight.setPlane(list.get(0));
+                    currentFlight.setDepartureCity(list.get(1));
+                    currentFlight.setDestinationCity(list.get(2));
+                    currentFlight.setDistance(Integer.parseInt(list.get(3)));
+                    currentFlight.setAverageSpeed(Integer.parseInt(list.get(4)));
+                    currentFlight.setDepartureTime(Integer.parseInt(list.get(5)),Integer.parseInt(list.get(6)));
+                    currentFlight.setAvailableSeats(Integer.parseInt(list.get(7)));
+                   flight.addFlight(currentFlight);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

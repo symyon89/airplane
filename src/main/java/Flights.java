@@ -27,7 +27,8 @@ public class Flights {
         updateFileFlights();
     }
     public void addFlight(FlightDetails flight){
-
+        flights.add(flight);
+        updateFileFlights();
     }
     public void showFlights() {
         if(flights.isEmpty())
@@ -105,33 +106,14 @@ public class Flights {
     public int returnSeats(int index){
         return flights.get(index).getAvailableSeats();
     }
-    public void updateFlight (int index,String plane,String departureCity,String destinationCity, int distance, int average,int hour,int minutes, int seats) throws WrongDateException {
-        if (flights.isEmpty()) {
-            System.out.println("No available flights to update");
-            return;
-        }
-       index--;
-       FlightDetails updateFlight = flights.get(index);
-        updateFlight.setPlane(plane);
-        updateFlight.setDepartureCity(departureCity);
-        updateFlight.setDestinationCity(destinationCity);
-        updateFlight.setDistance(distance);
-        updateFlight.setAverageSpeed(average);
-        updateFlight.setAvailableSeats(seats);
-        checkHour(hour);
-        checkMinutes(minutes);
-        updateFlight.setDepartureTime(hour,minutes);
-        flights.remove(index);
-        flights.add(index,updateFlight);
-        updateFileFlights();
-    }
+
     public void updateFlight (int index,FlightDetails flight) {
         if (flights.isEmpty()) {
             System.out.println("No available flights to update");
             return;
         }
         index--;
-
+        flights.remove(index);
         flights.add(index,flight);
         updateFileFlights();
     }
@@ -152,6 +134,9 @@ public class Flights {
         if (minutes < 0 || minutes >59) {
             throw new WrongDateException();
         }
+    }
+    public int numberOfFlights(){
+        return flights.size();
     }
     private void updateFileFlights(){
         Runnable saveFlights = () ->{
@@ -174,7 +159,5 @@ public class Flights {
         Thread saveFlightsThread = new Thread(saveFlights);
         saveFlightsThread.start();
     }
-    public int numberOfFlights(){
-        return flights.size();
-    }
+
 }
